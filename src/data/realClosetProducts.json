@@ -25,9 +25,9 @@
     "temperatureMax": 30,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual",
-      "trendy"
+      "para evento",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
@@ -57,9 +57,9 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual",
-      "night out"
+      "para evento",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
@@ -87,7 +87,8 @@
     "temperatureMax": 35,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty"
+      "deportivo",
+      "casual"
     ],
     "status": "limpio",
     "favorite": false,
@@ -116,7 +117,7 @@
     "temperatureMax": 22,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty"
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
@@ -145,8 +146,8 @@
     "temperatureMax": 16,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
@@ -178,8 +179,8 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "trendy",
-      "night out"
+      "para evento",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
@@ -209,8 +210,8 @@
     "temperatureMax": 25,
     "rainFriendly": true,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
@@ -238,7 +239,8 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty"
+      "deportivo",
+      "casual"
     ],
     "status": "limpio",
     "favorite": false,
@@ -267,8 +269,7 @@
     "temperatureMax": 18,
     "rainFriendly": true,
     "occasionTags": [
-      "sporty",
-      "casual"
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
@@ -300,9 +301,8 @@
     "temperatureMax": 22,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
       "formal",
-      "elegant"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": true,
@@ -333,9 +333,8 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual",
-      "trendy"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
@@ -364,9 +363,7 @@
     "temperatureMax": 30,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
-      "elegant",
-      "casual"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
@@ -398,9 +395,8 @@
     "temperatureMax": 38,
     "rainFriendly": true,
     "occasionTags": [
-      "office",
       "casual",
-      "elegant"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
@@ -431,13 +427,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.931Z"
+    "scrapedAt": "2026-06-22T18:11:41.264Z"
   },
   {
     "id": "real-15",
@@ -465,13 +461,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-16",
@@ -499,13 +495,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-17",
@@ -532,13 +528,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-18",
@@ -566,13 +561,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-19",
@@ -600,13 +595,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-20",
@@ -634,12 +629,12 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "casual"
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-21",
@@ -667,13 +662,12 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-22",
@@ -701,13 +695,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
+      "formal",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-23",
@@ -735,12 +729,13 @@
     "rainFriendly": false,
     "occasionTags": [
       "formal",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-24",
@@ -768,13 +763,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-25",
@@ -802,13 +797,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-26",
@@ -835,13 +830,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-27",
@@ -869,13 +864,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-28",
@@ -903,13 +898,14 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-29",
@@ -936,13 +932,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-30",
@@ -970,13 +965,12 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "casual",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-31",
@@ -1004,13 +998,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-32",
@@ -1037,13 +1031,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
+      "formal",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-33",
@@ -1077,7 +1071,7 @@
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-34",
@@ -1105,13 +1099,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-35",
@@ -1138,13 +1132,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-36",
@@ -1172,13 +1166,14 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-37",
@@ -1206,13 +1201,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-38",
@@ -1239,13 +1233,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-39",
@@ -1273,13 +1267,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-40",
@@ -1307,13 +1301,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "casual",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-41",
@@ -1340,13 +1333,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-42",
@@ -1374,13 +1366,14 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
-      "casual"
+      "formal",
+      "casual",
+      "para evento"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.935Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-43",
@@ -1409,12 +1402,13 @@
     "rainFriendly": false,
     "occasionTags": [
       "formal",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-44",
@@ -1441,13 +1435,14 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-45",
@@ -1475,13 +1470,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-46",
@@ -1509,13 +1504,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-47",
@@ -1542,13 +1537,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-48",
@@ -1576,13 +1571,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-49",
@@ -1610,13 +1605,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-50",
@@ -1644,12 +1638,12 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "casual"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-51",
@@ -1677,13 +1671,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-52",
@@ -1711,13 +1705,14 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
-      "casual"
+      "formal",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-53",
@@ -1750,7 +1745,7 @@
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-54",
@@ -1778,13 +1773,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-55",
@@ -1812,13 +1807,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-56",
@@ -1845,13 +1840,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-57",
@@ -1879,13 +1874,12 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-58",
@@ -1913,13 +1907,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-59",
@@ -1946,13 +1940,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-60",
@@ -1981,12 +1975,12 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "casual"
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-61",
@@ -2014,13 +2008,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-62",
@@ -2047,13 +2040,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
+      "formal",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-63",
@@ -2082,12 +2075,13 @@
     "rainFriendly": false,
     "occasionTags": [
       "formal",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-64",
@@ -2115,13 +2109,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-65",
@@ -2148,13 +2142,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-66",
@@ -2182,13 +2176,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-67",
@@ -2216,13 +2210,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-68",
@@ -2249,13 +2243,14 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-69",
@@ -2283,13 +2278,12 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-70",
@@ -2317,13 +2311,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "casual",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-71",
@@ -2350,13 +2343,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-72",
@@ -2384,13 +2377,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
+      "formal",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-73",
@@ -2424,7 +2417,7 @@
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-74",
@@ -2451,13 +2444,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-75",
@@ -2485,13 +2478,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-76",
@@ -2519,13 +2512,14 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-77",
@@ -2552,13 +2546,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-78",
@@ -2586,13 +2579,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-79",
@@ -2620,13 +2613,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-80",
@@ -2653,13 +2646,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "casual",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-81",
@@ -2687,13 +2679,12 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-82",
@@ -2721,13 +2712,14 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
-      "casual"
+      "formal",
+      "casual",
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-83",
@@ -2755,12 +2747,13 @@
     "rainFriendly": false,
     "occasionTags": [
       "formal",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-84",
@@ -2788,13 +2781,14 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
-      "casual"
+      "para evento",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-85",
@@ -2822,13 +2816,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-86",
@@ -2855,13 +2849,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-87",
@@ -2889,13 +2883,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-88",
@@ -2923,13 +2917,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-89",
@@ -2956,13 +2950,12 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-90",
@@ -2991,12 +2984,12 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "casual"
+      "para evento"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-91",
@@ -3024,13 +3017,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "university",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-92",
@@ -3057,13 +3050,14 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "office",
-      "casual"
+      "formal",
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-93",
@@ -3097,7 +3091,7 @@
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.270Z"
   },
   {
     "id": "real-94",
@@ -3125,13 +3119,13 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "night out",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-95",
@@ -3158,13 +3152,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "sporty",
+      "deportivo",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-96",
@@ -3192,13 +3186,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "elegant",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-97",
@@ -3226,13 +3220,12 @@
     "temperatureMax": 36,
     "rainFriendly": false,
     "occasionTags": [
-      "basic",
       "casual"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-98",
@@ -3259,13 +3252,13 @@
     "temperatureMax": 28,
     "rainFriendly": false,
     "occasionTags": [
-      "trendy",
+      "para evento",
       "casual"
     ],
     "status": "limpio",
     "favorite": true,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-99",
@@ -3293,13 +3286,13 @@
     "temperatureMax": 15,
     "rainFriendly": false,
     "occasionTags": [
-      "minimalist",
-      "casual"
+      "casual",
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   },
   {
     "id": "real-100",
@@ -3328,11 +3321,11 @@
     "rainFriendly": false,
     "occasionTags": [
       "casual",
-      "casual"
+      "deportivo"
     ],
     "status": "limpio",
     "favorite": false,
     "sourceVerified": true,
-    "scrapedAt": "2026-06-22T17:02:19.936Z"
+    "scrapedAt": "2026-06-22T18:11:41.274Z"
   }
 ]

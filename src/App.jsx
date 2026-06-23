@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import WeatherCard from './components/WeatherCard.jsx';
+import Icon from './components/Icon.jsx';
 import { fetchWeather } from './services/weatherService.js';
 import { recommendOutfit } from './services/outfitService.js';
 
@@ -20,6 +21,19 @@ export default function App() {
     categories: []
   });
   const [weather, setWeather] = useState(null);
+  
+  const [profile, setProfile] = useState(() => {
+    const saved = localStorage.getItem('user_profile');
+    const defaultProfile = { name: '', gender: 'Sin especificar', email: '' };
+    if (!saved) return defaultProfile;
+    try {
+      return { ...defaultProfile, ...JSON.parse(saved) };
+    } catch (e) {
+      return defaultProfile;
+    }
+  });
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileInput, setProfileInput] = useState(profile);
   
   // Asistente
   const [geminiKey, setGeminiKey] = useState(localStorage.getItem('gemini_api_key') || '');
@@ -59,7 +73,7 @@ export default function App() {
   const [scanStatus, setScanStatus] = useState('waiting'); // waiting, processing, success, error
   const [scrapeLoaderText, setScrapeLoaderText] = useState('Extrayendo metadatos de la tienda y foto oficial...');
   
-  // Confirmación de prenda agregada
+  // Confirmación de prenda agregada (ahora incluye style)
   const [isConfirming, setIsConfirming] = useState(false);
   const [confirmData, setConfirmData] = useState({
     name: '',
@@ -68,6 +82,7 @@ export default function App() {
     category: 'tops',
     color: '',
     price: '',
+    style: 'Casual',
     image_url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',
     purchase_url: ''
   });
@@ -87,14 +102,27 @@ export default function App() {
     fetchWeather().then(data => {
       setWeather(data);
     });
-  }, []);
 
-  // Volver a iniciar iconos de Lucide al renderizar paneles o listas
-  useEffect(() => {
-    if (window.lucide) {
-      window.lucide.createIcons();
+    // Mostrar onboarding si falta el perfil o campos obligatorios
+    const saved = localStorage.getItem('user_profile');
+    if (!saved) {
+      setShowProfileModal(true);
+    } else {
+      try {
+        const parsed = JSON.parse(saved);
+        if (!parsed.name || !parsed.email || !parsed.gender) {
+          setProfileInput({
+            name: parsed.name || '',
+            gender: parsed.gender || 'Sin especificar',
+            email: parsed.email || ''
+          });
+          setShowProfileModal(true);
+        }
+      } catch (e) {
+        setShowProfileModal(true);
+      }
     }
-  }, [activePanel, clothes, calendar, stats, chatMessages, isConfirming, addTab]);
+  }, []);
 
   const fetchStats = async () => {
     try {
@@ -216,6 +244,9 @@ export default function App() {
     // Filtro Color
     if (selectedColor !== 'all' && item.color !== selectedColor) return false;
 
+    // Filtro Estilo/Ocasión
+    if (selectedStyle !== 'all' && item.style !== selectedStyle) return false;
+
     // Filtro de Texto (Buscador: nombre, marca, tienda, color o tags)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -226,11 +257,16 @@ export default function App() {
       const matchesText = name.includes(query) || brand.includes(query) || store.includes(query) || color.includes(query);
       
       // Buscar también en los closetItems locales si coincide la tag o subcategory
-      const localItem = closetItemsPool.find(c => c.id === item.id);
+      const localItem = closetItemsPool.find(p => {
+        const pNumId = parseInt(String(p.id).replace(/[^\d]/g, ''));
+        return pNumId === item.id;
+      });
       const matchesTags = localItem && (
-        localItem.tags.some(t => t.toLowerCase().includes(query)) ||
+        (localItem.occasionTags || localItem.tags || []).some(t => t.toLowerCase().includes(query)) ||
         localItem.subcategory.toLowerCase().includes(query) ||
-        localItem.style.toLowerCase().includes(query)
+        (Array.isArray(localItem.style)
+          ? localItem.style.some(s => s.toLowerCase().includes(query))
+          : localItem.style.toLowerCase().includes(query))
       );
 
       return matchesText || matchesTags;
@@ -269,7 +305,12 @@ export default function App() {
         const response = await fetch('/api/assistant', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: text, gemini_key: geminiKey })
+          body: JSON.stringify({ 
+            prompt: text, 
+            gemini_key: geminiKey,
+            weather: currentWeather,
+            profile: profile
+          })
         });
         if (response.ok) {
           const data = await response.json();
@@ -286,21 +327,34 @@ export default function App() {
       // 3. Fallback: Usar el Outfit Service en el cliente (motor inteligente)
       // Buscamos detalles más ricos de cada prenda mapeándolo al pool estático
       const enrichedClothes = clothes.map(c => {
-        const poolItem = closetItemsPool.find(p => p.id === c.id);
+        const poolItem = closetItemsPool.find(p => {
+          const pNumId = parseInt(String(p.id).replace(/[^\d]/g, ''));
+          return pNumId === c.id;
+        });
+        const mapStyleToString = (styleVal) => {
+          if (!styleVal) return 'Casual';
+          const firstStyle = Array.isArray(styleVal) ? styleVal[0] : styleVal;
+          if (!firstStyle) return 'Casual';
+          const s = firstStyle.toLowerCase();
+          if (s === 'sporty' || s === 'deportivo') return 'Deportivo';
+          if (s === 'formal' || s === 'office' || s === 'elegant') return 'Formal';
+          if (s === 'chic' || s === 'trendy' || s === 'night out') return 'Eventos de Ocasión';
+          return 'Casual';
+        };
         return {
           ...c,
           subcategory: poolItem ? poolItem.subcategory : '',
           season: poolItem ? poolItem.season : 'Todo el año',
-          style: poolItem ? poolItem.style : 'Casual',
+          style: c.style || (poolItem ? mapStyleToString(poolItem.style) : 'Casual'),
           formalityLevel: poolItem ? poolItem.formalityLevel : 2,
           temperatureMin: poolItem ? poolItem.temperatureMin : 10,
           temperatureMax: poolItem ? poolItem.temperatureMax : 25,
           rainFriendly: poolItem ? poolItem.rainFriendly : false,
-          tags: poolItem ? poolItem.tags : []
+          tags: poolItem ? (poolItem.occasionTags || poolItem.tags || []) : []
         };
       });
 
-      const recommendation = recommendOutfit(enrichedClothes, text, currentWeather);
+      const recommendation = recommendOutfit(enrichedClothes, text, currentWeather, profile);
       
       // Simular delay para dar realismo tecnológico
       setTimeout(() => {
@@ -435,7 +489,7 @@ export default function App() {
       
       // Auto prellenar formulario de confirmación
       setTimeout(() => {
-        setConfirmData(data.detected_details);
+        setConfirmData({ style: 'Casual', ...data.detected_details });
         setIsConfirming(true);
       }, 800);
     } catch (e) {
@@ -462,7 +516,7 @@ export default function App() {
       });
       if (!response.ok) throw new Error('Fallo en búsqueda');
       const data = await response.json();
-      setConfirmData(data);
+      setConfirmData({ style: 'Casual', ...data });
       setIsConfirming(true);
     } catch (e) {
       alert('No pudimos extraer datos automáticamente. Se abrió el formulario manual.');
@@ -473,6 +527,7 @@ export default function App() {
         category: 'tops',
         color: '',
         price: '',
+        style: 'Casual',
         image_url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600',
         purchase_url: productUrl
       });
@@ -546,7 +601,32 @@ export default function App() {
     setGeminiKeyInput('');
     localStorage.removeItem('gemini_api_key');
     setShowKeyModal(false);
-    alert('Clave de Gemini API eliminada. Se usará el motor local.');
+    alert('Clave de Gemini API de-registrada.');
+  };
+
+  const handleSaveProfile = () => {
+    const { name, gender, email } = profileInput;
+    if (!name || !name.trim() || !email || !email.trim()) {
+      alert('El nombre y correo electrónico son obligatorios.');
+      return;
+    }
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      alert('Por favor introduce un correo electrónico válido.');
+      return;
+    }
+
+    const updatedProfile = {
+      name: name.trim(),
+      gender: gender || 'Sin especificar',
+      email: email.trim()
+    };
+
+    setProfile(updatedProfile);
+    localStorage.setItem('user_profile', JSON.stringify(updatedProfile));
+    setShowProfileModal(false);
+    alert('Perfil guardado correctamente.');
   };
 
   return (
@@ -561,8 +641,8 @@ export default function App() {
             <span className="control maximize"></span>
           </div>
           <div className="brand-title">
-            <div class="brand-logo">
-              <i data-lucide="sparkles"></i>
+            <div className="brand-logo">
+              <Icon name="sparkles" />
             </div>
             <h2>Aura Closet</h2>
           </div>
@@ -573,35 +653,37 @@ export default function App() {
           <a href="#dashboard" 
              className={`nav-item ${activePanel === 'dashboard' ? 'active' : ''}`}
              onClick={(e) => { e.preventDefault(); switchPanel('dashboard'); }}>
-            <i data-lucide="layout-dashboard"></i>
+            <Icon name="layout-dashboard" />
             <span>Dashboard</span>
           </a>
           <a href="#closet" 
              className={`nav-item ${activePanel === 'closet' ? 'active' : ''}`}
              onClick={(e) => { e.preventDefault(); switchPanel('closet'); }}>
-            <i data-lucide="shirt"></i>
+            <Icon name="shirt" />
             <span>Mi Clóset</span>
           </a>
           <a href="#add-item" 
              className={`nav-item ${activePanel === 'add-item' ? 'active' : ''}`}
              onClick={(e) => { e.preventDefault(); switchPanel('add-item'); }}>
-            <i data-lucide="plus-circle"></i>
+            <Icon name="plus-circle" />
             <span>Añadir Prenda</span>
           </a>
           <a href="#assistant" 
              className={`nav-item ${activePanel === 'assistant' ? 'active' : ''}`}
              onClick={(e) => { e.preventDefault(); switchPanel('assistant'); }}>
-            <i data-lucide="sparkles"></i>
+            <Icon name="sparkles" />
             <span>Asistente de Outfits</span>
           </a>
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-profile">
-            <div className="avatar">JG</div>
+          <div className="user-profile" onClick={() => { setProfileInput(profile); setShowProfileModal(true); }} style={{ cursor: 'pointer' }} title="Hacer clic para editar perfil">
+            <div className="avatar">
+              {profile.name ? profile.name.split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'JG'}
+            </div>
             <div className="user-info">
-              <span className="user-name">Javi Gonzalez</span>
-              <span className="user-status">Clóset Premium</span>
+              <span className="user-name">{profile.name || 'Usuario'}</span>
+              <span className="user-status">{profile.email || 'Editar Perfil'}</span>
             </div>
           </div>
         </div>
@@ -615,7 +697,7 @@ export default function App() {
           <section className="content-panel active">
             <header className="panel-header">
               <div>
-                <h1>Hola, Javi</h1>
+                <h1>Hola, {profile.name ? profile.name.split(' ')[0] : 'Usuario'}</h1>
                 <p className="subtitle">Este es el estado actual de tu guardarropa virtual.</p>
               </div>
               <div className="header-actions">
@@ -625,31 +707,31 @@ export default function App() {
 
             <div className="stats-grid">
               <div className="stat-card">
-                <div className="stat-icon purple"><i data-lucide="shirt"></i></div>
+                <div className="stat-icon purple"><Icon name="shirt" /></div>
                 <div className="stat-data">
                   <span className="stat-value">{stats.total_items}</span>
-                  <span class="stat-label">Prendas Totales</span>
+                  <span className="stat-label">Prendas Totales</span>
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon green"><i data-lucide="droplet"></i></div>
+                <div className="stat-icon green"><Icon name="droplet" /></div>
                 <div className="stat-data">
                   <span className="stat-value">{stats.clean_items}</span>
-                  <span class="stat-label">Prendas Limpias</span>
+                  <span className="stat-label">Prendas Limpias</span>
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon orange"><i data-lucide="flame-kindling"></i></div>
+                <div className="stat-icon orange"><Icon name="flame-kindling" /></div>
                 <div className="stat-data">
                   <span className="stat-value">{stats.dirty_items}</span>
-                  <span class="stat-label">En Lavadora</span>
+                  <span className="stat-label">En Lavadora</span>
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon blue"><i data-lucide="gem"></i></div>
+                <div className="stat-icon blue"><Icon name="gem" /></div>
                 <div className="stat-data">
                   <span className="stat-value">{stats.lent_items}</span>
-                  <span class="stat-label">Prestadas</span>
+                  <span className="stat-label">Prestadas</span>
                 </div>
               </div>
             </div>
@@ -657,7 +739,7 @@ export default function App() {
             <div className="dashboard-details-grid">
               <div className="details-card calendar-section">
                 <div className="card-header">
-                  <h3><i data-lucide="calendar"></i> Planificador Semanal de Outfits</h3>
+                  <h3><Icon name="calendar" /> Planificador Semanal de Outfits</h3>
                   <p>Organiza tus outfits recomendados para cada día</p>
                 </div>
                 <div className="weekly-calendar">
@@ -683,7 +765,7 @@ export default function App() {
                                 switchPanel('assistant');
                                 setSaveCalendarDay(day);
                               }}>
-                                <i data-lucide="sparkles"></i>
+                                <Icon name="sparkles" />
                                 <span>Sugerir</span>
                               </div>
                             )}
@@ -713,7 +795,7 @@ export default function App() {
               </div>
               <div className="header-actions">
                 <button className="btn btn-primary btn-mac" onClick={() => { switchPanel('add-item'); setAddTab('manual'); }}>
-                  <i data-lucide="plus"></i> Nueva Prenda
+                  <Icon name="plus" /> Nueva Prenda
                 </button>
               </div>
             </header>
@@ -721,7 +803,7 @@ export default function App() {
             {/* Barra de Filtros Avanzados */}
             <div className="filter-bar" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
               <div className="search-input-wrapper" style={{ gridColumn: 'span 2' }}>
-                <i data-lucide="search" className="search-icon"></i>
+                <Icon name="search" className="search-icon" />
                 <input type="text" placeholder="Buscar por nombre, marca, color o tag..." 
                        value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
               </div>
@@ -729,10 +811,9 @@ export default function App() {
                 <select className="mac-select" value={selectedStyle} onChange={(e) => setSelectedStyle(e.target.value)}>
                   <option value="all">Todos los Estilos</option>
                   <option value="Casual">Casual</option>
-                  <option value="Deportivo">Deportivo</option>
                   <option value="Formal">Formal</option>
-                  <option value="Chic">Chic</option>
-                  <option value="Streetwear">Streetwear</option>
+                  <option value="Deportivo">Deportivo</option>
+                  <option value="Eventos de Ocasión">Eventos de Ocasión</option>
                 </select>
               </div>
               <div className="filter-group">
@@ -787,8 +868,22 @@ export default function App() {
                   <div className="card-img-wrapper">
                     <img src={item.image_url} alt={item.name} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600'; }} />
                     <span className="category-tag">{translateCategory(item.category)}</span>
+                    <span className="style-tag" style={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '10px',
+                      background: 'rgba(255, 255, 255, 0.85)',
+                      backdropFilter: 'blur(4px)',
+                      color: '#4f46e5',
+                      padding: '2px 8px',
+                      borderRadius: '10px',
+                      fontSize: '0.65rem',
+                      fontWeight: '700',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                      zIndex: 2
+                    }}>{item.style || 'Casual'}</span>
                     <button className="btn-delete-garment" onClick={() => deleteGarment(item.id, item.name)} title="Eliminar Prenda">
-                      <i data-lucide="trash-2"></i>
+                      <Icon name="trash-2" />
                     </button>
                   </div>
                   <div className="card-details">
@@ -801,9 +896,7 @@ export default function App() {
                         </span>
                       </div>
                     </div>
-                    <div className="card-meta-row">
-                      <span className="card-price">${(item.price || 0).toLocaleString('es-CL')}</span>
-                      
+                    <div className="card-meta-row" style={{ justifyContent: 'flex-end' }}>
                       <button className="btn btn-secondary" 
                               onClick={() => toggleGarmentStatus(item.id, item.status)}
                               style={{ padding: '4px 8px', fontSize: '0.75rem' }}>
@@ -816,7 +909,7 @@ export default function App() {
               
               {filteredClothes.length === 0 && (
                 <div className="empty-state-closet">
-                  <i data-lucide="package-open" className="empty-icon"></i>
+                  <Icon name="package-open" className="empty-icon" />
                   <h3>Tu clóset no tiene prendas para mostrar</h3>
                   <p>Prueba ajustando los filtros superiores.</p>
                 </div>
@@ -837,10 +930,10 @@ export default function App() {
 
             <div className="add-methods-tabs">
               <button className={`tab-btn ${addTab === 'scan' ? 'active' : ''}`} onClick={() => { setAddTab('scan'); stopCamera(); }}>
-                <i data-lucide="scan"></i> Escanear Etiqueta
+                <Icon name="scan" /> Escanear Etiqueta
               </button>
               <button className={`tab-btn ${addTab === 'url' ? 'active' : ''}`} onClick={() => { setAddTab('url'); stopCamera(); }}>
-                <i data-lucide="link"></i> Importar por Enlace
+                <Icon name="link" /> Importar por Enlace
               </button>
               <button className={`tab-btn ${addTab === 'manual' ? 'active' : ''}`} onClick={() => {
                 setAddTab('manual');
@@ -851,7 +944,7 @@ export default function App() {
                 });
                 setIsConfirming(true);
               }}>
-                <i data-lucide="edit-3"></i> Registro Manual
+                <Icon name="edit-3" /> Registro Manual
               </button>
             </div>
 
@@ -868,12 +961,12 @@ export default function App() {
                         <img src={tagImagePreview} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Vista previa de etiqueta" />
                       ) : (
                         <div className="camera-placeholder">
-                          <i data-lucide="camera" className="placeholder-icon"></i>
+                          <Icon name="camera" className="placeholder-icon" />
                           <p>Usa la cámara trasera o sube una imagen de la etiqueta de tu prenda</p>
                           <div className="camera-placeholder-actions">
-                            <button className="btn btn-primary" onClick={startCamera}><i data-lucide="video"></i> Activar Cámara</button>
+                            <button className="btn btn-primary" onClick={startCamera}><Icon name="video" /> Activar Cámara</button>
                             <label className="btn btn-secondary cursor-pointer">
-                              <i data-lucide="upload"></i> Subir Foto
+                              <Icon name="upload" /> Subir Foto
                               <input type="file" accept="image/*" onChange={handleTagUpload} style={{ display: 'none' }} />
                             </label>
                           </div>
@@ -890,7 +983,7 @@ export default function App() {
 
                     {videoActive && (
                       <div className="camera-controls">
-                        <button className="btn btn-capture" onClick={captureAndScan}><i data-lucide="circle-dot"></i> Capturar</button>
+                        <button className="btn btn-capture" onClick={captureAndScan}><Icon name="circle-dot" /> Capturar</button>
                         <button className="btn btn-danger" onClick={stopCamera}>Cancelar</button>
                       </div>
                     )}
@@ -898,7 +991,7 @@ export default function App() {
 
                   <div className="scanner-results-box">
                     <div className="results-header">
-                      <h3><i data-lucide="terminal"></i> Resultados del Escaneo OCR</h3>
+                      <h3><Icon name="terminal" /> Resultados del Escaneo OCR</h3>
                       <span className={`status-indicator ${scanStatus}`}>{scanStatus.toUpperCase()}</span>
                     </div>
                     <pre className="ocr-terminal">{scanOcrText}</pre>
@@ -912,7 +1005,7 @@ export default function App() {
                   <div className="url-import-box">
                     <div className="input-action-row">
                       <div className="input-with-icon-lg">
-                        <i data-lucide="link-2"></i>
+                        <Icon name="link-2" />
                         <input type="url" placeholder="Pega el enlace del producto (ej: Falabella, Zara, H&M...)"
                                value={productUrl} onChange={(e) => setProductUrl(e.target.value)} />
                       </div>
@@ -935,7 +1028,7 @@ export default function App() {
               {/* FORMULARIO DE CONFIRMACIÓN */}
               {isConfirming && (
                 <div className="garment-confirmation-box">
-                  <h3><i data-lucide="check-circle-2"></i> Confirmar Detalles del Producto</h3>
+                  <h3><Icon name="check-circle-2" /> Confirmar Detalles del Producto</h3>
                   <hr className="form-divider" />
                   
                   <div className="confirmation-layout">
@@ -943,7 +1036,7 @@ export default function App() {
                       <div className="garment-image-frame">
                         <img src={confirmData.image_url} alt="Prenda" />
                         <label className="change-photo-badge">
-                          <i data-lucide="camera"></i> Cambiar Foto
+                          <Icon name="camera" /> Cambiar Foto
                           <input type="file" accept="image/*" onChange={handleConfirmImageUpload} style={{ display: 'none' }} />
                         </label>
                       </div>
@@ -978,12 +1071,17 @@ export default function App() {
                           </select>
                         </div>
                         <div className="form-group">
-                          <label>Color Predominante</label>
-                          <input type="text" value={confirmData.color} onChange={(e) => setConfirmData({ ...confirmData, color: e.target.value })} />
+                          <label>Estilo / Ocasión *</label>
+                          <select className="mac-select" value={confirmData.style} onChange={(e) => setConfirmData({ ...confirmData, style: e.target.value })}>
+                            <option value="Casual">Casual</option>
+                            <option value="Formal">Formal</option>
+                            <option value="Deportivo">Deportivo</option>
+                            <option value="Eventos de Ocasión">Eventos de Ocasión</option>
+                          </select>
                         </div>
                         <div className="form-group">
-                          <label>Precio ($ CL)</label>
-                          <input type="number" value={confirmData.price} onChange={(e) => setConfirmData({ ...confirmData, price: parseFloat(e.target.value) || '' })} />
+                          <label>Color Predominante</label>
+                          <input type="text" value={confirmData.color} onChange={(e) => setConfirmData({ ...confirmData, color: e.target.value })} />
                         </div>
                       </div>
                       
@@ -1010,7 +1108,7 @@ export default function App() {
               </div>
               <div className="header-actions">
                 <button className="btn btn-secondary btn-mac" onClick={() => setShowKeyModal(true)}>
-                  <i data-lucide="key"></i> Configurar API Key
+                  <Icon name="key" /> Configurar API Key
                 </button>
               </div>
             </header>
@@ -1019,7 +1117,7 @@ export default function App() {
               {/* Chat del Asistente */}
               <div className="chat-container">
                 <div className="chat-header">
-                  <div className="assistant-avatar"><i data-lucide="sparkles"></i></div>
+                  <div className="assistant-avatar"><Icon name="sparkles" /></div>
                   <div className="assistant-info">
                     <h3>Aura</h3>
                     <span>Estilista Virtual con Inteligencia Artificial</span>
@@ -1051,7 +1149,7 @@ export default function App() {
                   <input type="text" placeholder="Escribe tu evento aquí..." 
                          value={assistantInput} onChange={(e) => setAssistantInput(e.target.value)}
                          onKeyPress={(e) => { if (e.key === 'Enter') handleSendAssistant(); }} />
-                  <button className="btn-send" onClick={handleSendAssistant}><i data-lucide="send"></i></button>
+                  <button className="btn-send" onClick={handleSendAssistant}><Icon name="send" /></button>
                 </div>
               </div>
 
@@ -1060,7 +1158,7 @@ export default function App() {
                 {currentRecommendation ? (
                   <div className="recommendation-content">
                     <div className="recommendation-header">
-                      <h3><i data-lucide="check-square"></i> Outfit Recomendado</h3>
+                      <h3><Icon name="check-square" /> Outfit Recomendado</h3>
                       <span className="badge-style">{outfitStyleBadge}</span>
                     </div>
 
@@ -1095,7 +1193,7 @@ export default function App() {
                   </div>
                 ) : (
                   <div className="empty-recommendation">
-                    <i data-lucide="sparkles" className="pulsing-icon"></i>
+                    <Icon name="sparkles" className="pulsing-icon" />
                     <h3>Visualizador de Outfit</h3>
                     <p>Describe tu evento en el chat y Aura presentará aquí la selección idónea.</p>
                   </div>
@@ -1112,12 +1210,12 @@ export default function App() {
         <div className="mac-modal-backdrop">
           <div className="mac-modal-window">
             <div className="modal-header">
-              <h3><i data-lucide="key"></i> Configurar API Key de Gemini</h3>
-              <button className="btn-close-modal" onClick={() => setShowKeyModal(false)}><i data-lucide="x"></i></button>
+              <h3><Icon name="key" /> Configurar API Key de Gemini</h3>
+              <button className="btn-close-modal" onClick={() => setShowKeyModal(false)}><Icon name="x" /></button>
             </div>
             <div className="modal-body">
               <p>Introduce tu clave de API de Google Gemini para habilitar el asistente de estilo inteligente basado en visión artificial y moda en tiempo real.</p>
-              <p className="warning-text"><i data-lucide="shield-alert"></i> Tu clave se almacena exclusivamente en tu navegador de forma local.</p>
+              <p className="warning-text"><Icon name="shield-alert" /> Tu clave se almacena exclusivamente en tu navegador de forma local.</p>
               <div className="form-group margin-top-lg">
                 <label>Gemini API Key</label>
                 <input type="password" value={geminiKeyInput} onChange={(e) => setGeminiKeyInput(e.target.value)} placeholder="AIzaSy..." />
@@ -1126,6 +1224,74 @@ export default function App() {
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={handleClearGeminiKey}>Eliminar Clave</button>
               <button className="btn btn-primary" onClick={handleSaveGeminiKey}>Guardar Clave</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL CONFIGURACIÓN PERFIL / ONBOARDING */}
+      {showProfileModal && (
+        <div className="mac-modal-backdrop" style={{ zIndex: 1000 }}>
+          <div className="mac-modal-window">
+            <div className="modal-header">
+              <h3>
+                <Icon name="user" /> {profile.name ? 'Editar Perfil de Estilo' : '¡Bienvenido a Aura Closet!'}
+              </h3>
+              {profile.name && (
+                <button className="btn-close-modal" onClick={() => setShowProfileModal(false)}>
+                  <Icon name="x" />
+                </button>
+              )}
+            </div>
+            <div className="modal-body">
+              <p>
+                {profile.name 
+                  ? 'Actualiza tus datos para personalizar las recomendaciones y el saludo de la aplicación.'
+                  : 'Para comenzar a gestionar tu clóset inteligente y recibir outfits adaptados a ti, dinos quién eres:'}
+              </p>
+              
+              <div className="form-group margin-top-lg">
+                <label>Nombre Completo *</label>
+                <input 
+                  type="text" 
+                  value={profileInput.name} 
+                  onChange={(e) => setProfileInput({ ...profileInput, name: e.target.value })} 
+                  placeholder="Ej: Javi Gonzalez" 
+                />
+              </div>
+
+              <div className="form-group margin-top-md">
+                <label>Género *</label>
+                <select 
+                  className="mac-select" 
+                  value={profileInput.gender} 
+                  onChange={(e) => setProfileInput({ ...profileInput, gender: e.target.value })}
+                >
+                  <option value="Sin especificar">Sin especificar / No Binario</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Masculino">Masculino</option>
+                </select>
+              </div>
+
+              <div className="form-group margin-top-md">
+                <label>Correo Electrónico *</label>
+                <input 
+                  type="email" 
+                  value={profileInput.email} 
+                  onChange={(e) => setProfileInput({ ...profileInput, email: e.target.value })} 
+                  placeholder="Ej: javi@example.com" 
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              {profile.name && (
+                <button className="btn btn-secondary" onClick={() => setShowProfileModal(false)}>
+                  Cancelar
+                </button>
+              )}
+              <button className="btn btn-primary" onClick={handleSaveProfile}>
+                Guardar Perfil
+              </button>
             </div>
           </div>
         </div>

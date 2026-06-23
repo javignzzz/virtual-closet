@@ -43,9 +43,28 @@ function initializeDatabase() {
         status TEXT DEFAULT 'clean' CHECK(status IN ('clean', 'dirty', 'lent')),
         purchase_url TEXT,
         price REAL,
+        style TEXT DEFAULT 'Casual',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
-    `);
+    `, () => {
+      // Verificar si la columna 'style' existe. Si no, agregarla.
+      db.all("PRAGMA table_info(clothes)", (err, columns) => {
+        if (err) {
+          console.error("Error al consultar pragma table_info:", err.message);
+          return;
+        }
+        const hasStyle = columns.some(col => col.name === 'style');
+        if (!hasStyle) {
+          db.run("ALTER TABLE clothes ADD COLUMN style TEXT DEFAULT 'Casual'", (alterErr) => {
+            if (alterErr) {
+              console.error("Error al añadir columna style:", alterErr.message);
+            } else {
+              console.log("Columna 'style' añadida con éxito a la tabla clothes.");
+            }
+          });
+        }
+      });
+    });
 
     // 2. Tabla de outfits (conjuntos)
     db.run(`
@@ -112,8 +131,8 @@ function checkAndPopulateClothes() {
         db.run('DELETE FROM sqlite_sequence WHERE name="clothes"');
         
         const stmt = db.prepare(`
-          INSERT INTO clothes (id, name, brand, store, category, color, price, image_url, purchase_url, status)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO clothes (id, name, brand, store, category, color, price, image_url, purchase_url, status, style)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `);
 
         realClosetProducts.forEach(c => {
@@ -128,7 +147,18 @@ function checkAndPopulateClothes() {
           const price = c.priceCLP || c.price || 19990;
           const color = c.color || 'Otro';
 
-          stmt.run(numId, c.name, c.brand, c.store, c.category, color, price, c.imageUrl, c.productUrl, dbStatus);
+          // Mapear el estilo de occasionTags a los 4 estilos oficiales
+          let dbStyle = 'Casual';
+          const tags = c.occasionTags || [];
+          if (tags.includes('deportivo')) {
+            dbStyle = 'Deportivo';
+          } else if (tags.includes('formal')) {
+            dbStyle = 'Formal';
+          } else if (tags.includes('para evento')) {
+            dbStyle = 'Eventos de Ocasión';
+          }
+
+          stmt.run(numId, c.name, c.brand, c.store, c.category, color, price, c.imageUrl, c.productUrl, dbStatus, dbStyle);
         });
 
         stmt.finalize((err2) => {

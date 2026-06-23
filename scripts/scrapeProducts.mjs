@@ -591,6 +591,54 @@ async function scrapeProduct(page, productUrl, store, id) {
   }
 }
 
+function getSpanishOccasionTags(name = "", category = "", style = []) {
+  const text = name.toLowerCase();
+  const tags = new Set();
+
+  const lowerStyles = (Array.isArray(style) ? style : [style]).map(s => String(s).toLowerCase());
+
+  for (const s of lowerStyles) {
+    if (s.includes("formal") || s.includes("office") || s.includes("work")) {
+      tags.add("formal");
+    }
+    if (s.includes("casual")) {
+      tags.add("casual");
+    }
+    if (s.includes("sporty") || s.includes("deportivo")) {
+      tags.add("deportivo");
+    }
+    if (s.includes("elegant") || s.includes("night out") || s.includes("party") || s.includes("chic") || s.includes("trendy")) {
+      tags.add("para evento");
+    }
+  }
+
+  if (category === "sportswear") {
+    tags.add("deportivo");
+  }
+  if (category === "dresses") {
+    tags.add("para evento");
+  }
+
+  if (text.includes("calza") || text.includes("deportivo") || text.includes("training") || text.includes("running") || text.includes("sudadera") || text.includes("polerón") || text.includes("poleron") || text.includes("cortavientos") || text.includes("zapatilla")) {
+    tags.add("deportivo");
+  }
+  if (text.includes("blazer") || text.includes("sastrero") || text.includes("camisa") || text.includes("oficina") || text.includes("vestir") || text.includes("mocasines")) {
+    tags.add("formal");
+  }
+  if (text.includes("fiesta") || text.includes("gala") || text.includes("matrimonio") || text.includes("boda") || text.includes("evento") || text.includes("noche") || text.includes("vestido")) {
+    tags.add("para evento");
+  }
+  if (text.includes("jeans") || text.includes("polera") || text.includes("short") || text.includes("casual") || text.includes("básico") || text.includes("basico")) {
+    tags.add("casual");
+  }
+
+  if (tags.size === 0) {
+    tags.add("casual");
+  }
+
+  return [...tags];
+}
+
 async function main() {
   console.log("Iniciando navegador Chromium en modo headless...");
   let browser;
@@ -684,6 +732,11 @@ async function main() {
     }
   }
 
+  const productsWithTags = products.map(p => ({
+    ...p,
+    occasionTags: getSpanishOccasionTags(p.name, p.category, p.style)
+  }));
+
   const outputPath = path.resolve("src/data/realClosetProducts.json");
   const outputDir = path.dirname(outputPath);
 
@@ -691,7 +744,7 @@ async function main() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  fs.writeFileSync(outputPath, JSON.stringify(products, null, 2), "utf-8");
+  fs.writeFileSync(outputPath, JSON.stringify(productsWithTags, null, 2), "utf-8");
 
   // Mostrar resumen solicitado
   console.log("\n==========================================");

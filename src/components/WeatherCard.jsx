@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from './Icon.jsx';
 
 export default function WeatherCard({ weather }) {
   if (!weather) return null;
@@ -20,29 +21,22 @@ export default function WeatherCard({ weather }) {
 
   const getWeatherIcon = () => {
     if (currentRain > 0 || rainProbability > 50) {
-      return <i className="weather-large-icon" data-lucide="cloud-rain" style={{ color: '#007aff' }}></i>;
+      return <Icon name="cloud-rain" className="weather-large-icon" style={{ color: '#007aff' }} />;
     }
     if (currentTemp < 14) {
-      return <i className="weather-large-icon" data-lucide="snowflake" style={{ color: '#8ec5fc' }}></i>;
+      return <Icon name="snowflake" className="weather-large-icon" style={{ color: '#8ec5fc' }} />;
     }
     if (currentTemp > 25) {
-      return <i className="weather-large-icon" data-lucide="sun" style={{ color: '#ff9500' }}></i>;
+      return <Icon name="sun" className="weather-large-icon" style={{ color: '#ff9500' }} />;
     }
-    return <i className="weather-large-icon" data-lucide="cloud-sun" style={{ color: '#ff9500' }}></i>;
+    return <Icon name="cloud-sun" className="weather-large-icon" style={{ color: '#ff9500' }} />;
   };
-
-  // Re-inicializar iconos Lucide cada vez que el componente se renderice para asegurar que se muestre el icono
-  React.useEffect(() => {
-    if (window.lucide) {
-      window.lucide.createIcons();
-    }
-  }, [weather]);
 
   return (
     <div className="details-card weather-card-widget">
       <div className="card-header">
         <h3>
-          <i data-lucide="cloud-sun"></i> Clima en Santiago
+          <Icon name="cloud-sun" /> Clima en Santiago
         </h3>
         <p>Santiago de Chile {isMock ? '(Datos Simulados)' : '(Tiempo Real)'}</p>
       </div>

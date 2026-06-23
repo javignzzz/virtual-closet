@@ -10,7 +10,7 @@ function shuffle(array) {
   return arr;
 }
 
-export function recommendOutfit(clothes, occasion, weather) {
+export function recommendOutfit(clothes, occasion, weather, profile) {
   const { currentTemp, rainProbability, currentRain } = weather;
   const isRaining = currentRain > 0 || rainProbability > 50;
 
@@ -109,7 +109,13 @@ export function recommendOutfit(clothes, occasion, weather) {
 
   // Determinar si usar Vestido (dresses) o la combinación clásica Top + Bottom
   // Se prefiere vestido si hace calor (>18°C), en ocasiones de noche, y si hay vestidos disponibles
-  const canUseDress = dresses.length > 0 && (currentTemp > 18 || occasionType === 'noche') && Math.random() > 0.4;
+  const isMasculino = profile?.gender === 'Masculino';
+  const explicitlyRequestedDress = occ.includes('vestido') || occ.includes('falda') || occ.includes('dress') || occ.includes('enterito');
+  
+  let canUseDress = dresses.length > 0 && (currentTemp > 18 || occasionType === 'noche') && Math.random() > 0.4;
+  if (isMasculino && !explicitlyRequestedDress) {
+    canUseDress = false;
+  }
 
   if (canUseDress) {
     // Outfit con vestido

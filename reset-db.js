@@ -39,6 +39,7 @@ function runSeeding() {
         status TEXT DEFAULT 'clean' CHECK(status IN ('clean', 'dirty', 'lent')),
         purchase_url TEXT,
         price REAL,
+        style TEXT DEFAULT 'Casual',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
@@ -82,8 +83,8 @@ function runSeeding() {
     console.log(`Loading ${products.length} products into database...`);
 
     const stmt = db.prepare(`
-      INSERT INTO clothes (id, name, brand, store, category, color, price, image_url, purchase_url, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO clothes (id, name, brand, store, category, color, price, image_url, purchase_url, status, style)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     products.forEach(c => {
@@ -94,7 +95,18 @@ function runSeeding() {
       const price = c.priceCLP || c.price || 19990;
       const color = c.color || 'Otro';
 
-      stmt.run(numId, c.name, c.brand, c.store, c.category, color, price, c.imageUrl, c.productUrl, dbStatus);
+      // Mapear el estilo de occasionTags a los 4 estilos oficiales
+      let dbStyle = 'Casual';
+      const tags = c.occasionTags || [];
+      if (tags.includes('deportivo')) {
+        dbStyle = 'Deportivo';
+      } else if (tags.includes('formal')) {
+        dbStyle = 'Formal';
+      } else if (tags.includes('para evento')) {
+        dbStyle = 'Eventos de Ocasión';
+      }
+
+      stmt.run(numId, c.name, c.brand, c.store, c.category, color, price, c.imageUrl, c.productUrl, dbStatus, dbStyle);
     });
 
     stmt.finalize((err) => {

@@ -80,22 +80,26 @@ app.get('/api/clothes', async (req, res) => {
 
 // 2. Agregar una prenda
 app.post('/api/clothes', async (req, res) => {
-  const { name, brand, store, category, color, image_url, purchase_url, price } = req.body;
+  const { name, brand, store, category, color, image_url, purchase_url, price, style } = req.body;
   if (!name || !category) {
     return res.status(400).json({ error: 'El nombre y la categoría son requeridos.' });
   }
 
-  // Soporte para las nuevas categorías
-  const validCategories = ['tops', 'bottoms', 'dresses', 'jackets', 'shoes', 'accessories', 'bags'];
+  // Soporte para las nuevas categorías, incluyendo sportswear
+  const validCategories = ['tops', 'bottoms', 'dresses', 'jackets', 'shoes', 'accessories', 'bags', 'sportswear'];
   if (!validCategories.includes(category)) {
     return res.status(400).json({ error: 'Categoría no válida.' });
   }
 
+  // Validación de estilo oficial
+  const validStyles = ['Formal', 'Casual', 'Deportivo', 'Eventos de Ocasión'];
+  const dbStyle = validStyles.includes(style) ? style : 'Casual';
+
   try {
     const result = await dbQuery.run(`
-      INSERT INTO clothes (name, brand, store, category, color, image_url, purchase_url, price, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'clean')
-    `, [name, brand, store, category, color, image_url, purchase_url, price]);
+      INSERT INTO clothes (name, brand, store, category, color, image_url, purchase_url, price, status, style)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'clean', ?)
+    `, [name, brand, store, category, color, image_url, purchase_url, price, dbStyle]);
     
     const newGarment = await dbQuery.get('SELECT * FROM clothes WHERE id = ?', [result.id]);
     res.status(201).json(newGarment);
@@ -104,10 +108,12 @@ app.post('/api/clothes', async (req, res) => {
   }
 });
 
-// 3. Modificar prenda (incluido estado clean/dirty/lent)
+// 3. Modificar prenda (incluido estado clean/dirty/lent y estilo)
 app.put('/api/clothes/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, brand, store, category, color, status, price, favorite } = req.body;
+  const { name, brand, store, category, color, status, price, style } = req.body;
+
+  const validStyles = ['Formal', 'Casual', 'Deportivo', 'Eventos de Ocasión'];
 
   try {
     const existing = await dbQuery.get('SELECT * FROM clothes WHERE id = ?', [id]);
@@ -122,12 +128,13 @@ app.put('/api/clothes/:id', async (req, res) => {
     const updatedColor = color !== undefined ? color : existing.color;
     const updatedStatus = status !== undefined ? status : existing.status;
     const updatedPrice = price !== undefined ? price : existing.price;
+    const updatedStyle = (style !== undefined && validStyles.includes(style)) ? style : existing.style;
 
     await dbQuery.run(`
       UPDATE clothes 
-      SET name = ?, brand = ?, store = ?, category = ?, color = ?, status = ?, price = ?
+      SET name = ?, brand = ?, store = ?, category = ?, color = ?, status = ?, price = ?, style = ?
       WHERE id = ?
-    `, [updatedName, updatedBrand, updatedStore, updatedCategory, updatedColor, updatedStatus, updatedPrice, id]);
+    `, [updatedName, updatedBrand, updatedStore, updatedCategory, updatedColor, updatedStatus, updatedPrice, updatedStyle, id]);
 
     const updatedGarment = await dbQuery.get('SELECT * FROM clothes WHERE id = ?', [id]);
     res.json(updatedGarment);
@@ -210,7 +217,7 @@ app.post('/api/scrape', async (req, res) => {
       name: ogTitle ? ogTitle.trim().substring(0, 100) : 'Prenda Encontrada',
       brand: ogBrand ? ogBrand.trim() : storeName,
       store: storeName,
-      price: 29.900,
+      price: 29990,
       category: category,
       color: 'Otro',
       image_url: ogImage || getStockImage(ogTitle || url, category),
@@ -353,6 +360,81 @@ app.delete('/api/calendar/:day', async (req, res) => {
     res.json({ success: true, message: `Calendario del día ${day} limpiado.` });
   } catch (err) {
     res.status(500).json({ error: 'Error al limpiar el día del calendario: ' + err.message });
+  }
+});
+
+// 10. Asistente inteligente con la API de Gemini
+app.post('/api/assistant', async (req, res) => {
+  const { prompt, gemini_key, weather, profile } = req.body;
+  if (!gemini_key) {
+    return res.status(400).json({ error: 'La clave de API de Gemini es requerida.' });
+  }
+
+  try {
+    // Obtener todas las prendas del clóset (sólo limpias)
+    const clothes = await dbQuery.all("SELECT * FROM clothes WHERE status = 'clean'");
+
+    // Preparar los datos para el prompt
+    const clothesInfo = clothes.map(c => `ID: ${c.id}, Nombre: ${c.name}, Categoría: ${c.category}, Color: ${c.color}, Estilo: ${c.style}, Marca: ${c.brand}`).join('\n');
+    
+    const userName = profile?.name || 'Usuario';
+    const userGender = profile?.gender || 'Sin especificar';
+    const temp = weather?.currentTemp !== undefined ? weather.currentTemp : 15;
+    const rainProb = weather?.rainProbability !== undefined ? weather.rainProbability : 0;
+
+    const systemPrompt = `Eres Aura, una estilista personal inteligente para un clóset virtual. 
+Tu usuario se llama ${userName} y su género es ${userGender}.
+El clima actual en su ciudad es de ${temp}°C con una probabilidad de lluvia del ${rainProb}%.
+
+El usuario te ha pedido: "${prompt}"
+
+Tu tarea es seleccionar el outfit perfecto de entre las siguientes prendas limpias de su clóset:
+${clothesInfo}
+
+Instrucciones obligatorias:
+1. Selecciona un conjunto coherente (típicamente 1 Top + 1 Bottom + 1 Calzado, o bien 1 Vestido + 1 Calzado. Añade abrigo (jacket) si la temperatura es menor a 16°C o si llueve).
+2. Si el género del usuario es "Masculino", NO incluyas vestidos (categoría 'dresses'), a menos que el usuario lo solicite explícitamente en su mensaje.
+3. El outfit sugerido debe ceñirse a las prendas reales listadas arriba (usa los IDs numéricos exactos de las prendas proporcionadas).
+4. Devuelve un objeto JSON estrictamente válido con la siguiente estructura:
+{
+  "reply": "Tu recomendación explicada de manera profesional y amigable en español, detallando por qué combina bien para el clima y la ocasión.",
+  "outfit_ids": [id1, id2, ...]
+}`;
+
+    // Llamar a la API de Gemini
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${gemini_key}`;
+    const response = await axios.post(geminiUrl, {
+      contents: [
+        {
+          parts: [
+            { text: systemPrompt }
+          ]
+        }
+      ],
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
+    }, { timeout: 10000 });
+
+    const responseText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!responseText) {
+      throw new Error('Respuesta vacía de Gemini');
+    }
+
+    const result = JSON.parse(responseText.trim());
+    
+    // Obtener los objetos de prendas completos a partir de los IDs devueltos por Gemini
+    const outfitIds = result.outfit_ids || [];
+    const recommendedClothes = clothes.filter(c => outfitIds.includes(c.id));
+
+    res.json({
+      reply: result.reply,
+      outfit: recommendedClothes
+    });
+
+  } catch (err) {
+    console.error('Error en el asistente de Gemini:', err);
+    res.status(500).json({ error: 'Error al procesar la sugerencia con Gemini: ' + err.message });
   }
 });
 
